@@ -21,4 +21,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ojave.Core\Ojave.Core.csproj" />
+  </ItemGroup>
+
 </Project>
