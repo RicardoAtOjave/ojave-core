@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ojave.Core.Extensions;
 
-namespace Ojave.Core.System.Collections;
-
+namespace Ojave.Core.Collections;
 public class PaginatedList<T>
 {
     public List<T> Items { get; }
@@ -28,3 +27,4 @@ public class PaginatedList<T>
         return new PaginatedList<T>(items, count, pageIndex, qtyPerPage);
     }
 }
+

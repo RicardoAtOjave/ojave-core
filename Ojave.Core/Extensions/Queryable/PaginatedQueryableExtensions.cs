@@ -1,4 +1,4 @@
-﻿using Ojave.Core.System.Collections;
+﻿using Ojave.Core.Collections;
 
 namespace Ojave.Core.Extensions;
 
