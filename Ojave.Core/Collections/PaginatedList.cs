@@ -11,6 +11,11 @@ public class PaginatedList<T>
     public bool HasPreviousPage => PageIndex > 1;
     public bool HasNextPage => PageIndex < TotalPages;
 
+    public PaginatedList()
+    {
+        Items = new List<T>();
+    }
+
     public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
     {
         PageIndex = pageIndex;
