@@ -4,10 +4,10 @@ using Ojave.Core.Extensions;
 namespace Ojave.Core.Collections;
 public class PaginatedList<T>
 {
-    public List<T> Items { get; }
-    public int PageIndex { get; }
-    public int TotalPages { get; }
-    public int TotalCount { get; }
+    public List<T> Items { get; set; }
+    public int PageIndex { get; set; }
+    public int TotalPages { get; set; }
+    public int TotalCount { get; set; }
     public bool HasPreviousPage => PageIndex > 1;
     public bool HasNextPage => PageIndex < TotalPages;
 
