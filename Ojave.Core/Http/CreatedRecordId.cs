@@ -7,5 +7,10 @@
 /// <typeparam name="T"></typeparam>
 public class CreatedRecordResponse<T>
 {
-    public T CreatedRecordId { get; set; }
+	public CreatedRecordResponse(T key)
+	{
+		CreatedRecordId = key;
+	}
+
+    public T CreatedRecordId { get; private init; }
 }
