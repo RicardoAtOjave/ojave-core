@@ -4,8 +4,11 @@ public sealed class HttpFileResult
 {
     public HttpFileResult()
     {
-
+        FileContents = Array.Empty<byte>();
+        ContentType = string.Empty;
+        FileDownloadName = string.Empty;
     }
+
     public HttpFileResult(byte[] bytes, string contentType)
     {
         FileContents = bytes;
