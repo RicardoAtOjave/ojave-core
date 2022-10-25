@@ -2,6 +2,10 @@
 
 public sealed class HttpFileResult
 {
+    public HttpFileResult()
+    {
+
+    }
     public HttpFileResult(byte[] bytes, string contentType)
     {
         FileContents = bytes;
@@ -16,7 +20,7 @@ public sealed class HttpFileResult
         FileDownloadName = downloadName;
     }
 
-    public byte[] FileContents { get; private init; }
-    public string ContentType { get; private init; }
-    public string FileDownloadName { get; private init; }
+    public byte[] FileContents { get; init; }
+    public string ContentType { get; init; }
+    public string FileDownloadName { get; init; }
 }
