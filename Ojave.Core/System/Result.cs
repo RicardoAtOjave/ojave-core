@@ -1,17 +1,24 @@
 ﻿namespace Ojave.Core.System;
 
-public class Result<T, E> where E : class
+public struct Result<T, E> where E : class
 {
-    public Result() { }
+    public Result()
+    {
+        Data = default;
+        State = ResultState.Ok;
+        Error = default;
+    }
 
     private Result(T data)
     {
         Data = data;
         State = ResultState.Ok;
+        Error = default;
     }
 
     private Result(E error)
     {
+        Data = default;
         State = ResultState.Err;
         Error = error;
     }
