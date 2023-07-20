@@ -49,10 +49,22 @@ public struct Result<T, E> where E : class
     public T Unwrap() => Data;
 
     /// <summary>
+    /// Warning: check the result state before unwrapping. Unwrap to collect the data
+    /// </summary>
+    /// <returns></returns>
+    public void Unwrap(out T data) => data = Data;
+
+    /// <summary>
     ///  Unwraps and returns the error
     /// </summary>
     /// <returns></returns>
     public E CollectErr() => Error;
+
+    /// <summary>
+    ///  Unwraps and returns the error
+    /// </summary>
+    /// <returns></returns>
+    public void CollectErr(out E err) => err = Error;
 }
 
 public enum ResultState
