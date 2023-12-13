@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.0.5</Version>
+    <Version>1.0.0</Version>
     <RepositoryUrl>https://github.com/RicardoAtOjave/ojave-core</RepositoryUrl>
-    <Description>Core library for Ojave</Description>
+    <Description>Core library for Ojave Internal Use</Description>
     <PackageTags>C#;dotnet;</PackageTags>
     <Authors>Ricardo Marinho</Authors>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

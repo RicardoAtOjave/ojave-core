@@ -1,9 +1,10 @@
 ﻿using Ojave.Core.System;
 
 namespace Ojave.Core.Extensions;
+
 public static class DateTimeExtensions
 {
-    public static (DateTime, DateTime) BetweenPeriod(this DateTime date, TimePeriod timePeriod = TimePeriod.Day)
+    public static (DateTime startDate, DateTime endDate) BetweenPeriod(this DateTime date, TimePeriod timePeriod = TimePeriod.Day)
     {
         switch (timePeriod)
         {
@@ -16,8 +17,8 @@ public static class DateTimeExtensions
                 return (mondayDate, sundayDate);
             case TimePeriod.Month:
                 var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-                var lasyDayOfMonth = firstDayOfMonth.AddMonths(1).AddTicks(-1);
-                return (firstDayOfMonth, lasyDayOfMonth);
+                var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddTicks(-1);
+                return (firstDayOfMonth, lastDayOfMonth);
             case TimePeriod.Year:
                 var yearStart = new DateTime(date.Year, 1, 1);
                 var yearEnd = new DateTime(date.Year, 12, 31);

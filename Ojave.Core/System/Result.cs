@@ -1,75 +1,102 @@
 ﻿namespace Ojave.Core.System;
 
-public struct Result<T, E> where E : class
+public class Result
 {
-    public Result()
+    protected internal Result(bool isSuccess, Error error)
     {
-        Data = default;
-        State = ResultState.Ok;
-        Error = default;
+        if (isSuccess && error != Error.None)
+        {
+            throw new InvalidOperationException();
+        }
+
+        if (!isSuccess && error == Error.None)
+        {
+            throw new InvalidOperationException();
+        }
+
+        IsSuccess = isSuccess;
+        Errors = new[] { error };
     }
 
-    private Result(T data)
+    protected internal Result(bool isSuccess, Error[] errors)
     {
-        Data = data;
-        State = ResultState.Ok;
-        Error = default;
+        IsSuccess = isSuccess;
+        Errors = errors;
     }
 
-    private Result(E error)
+    public bool IsSuccess { get; }
+
+    public bool IsFailure => !IsSuccess;
+
+    public Error[] Errors { get; }
+
+    public static Result Success() => new(true, Error.None);
+
+    public static Result<TValue> Success<TValue>(TValue value) =>
+        new(value, true, Error.None);
+
+    public static Result Failure(Error error) =>
+        new(false, error);
+
+    public static Result Failure(Error[] errors) =>
+        new(false, errors);
+
+    public static Result<TValue> Failure<TValue>(Error error) =>
+        new(default, false, error);
+
+    public static Result<TValue> Failure<TValue>(Error[] errors) =>
+        new(default, false, errors);
+
+    public static Result<TValue> Create<TValue>(TValue? value) =>
+        value is not null ? Success(value) : Failure<TValue>(Error.NullValue);
+
+    public static Result<T> Ensure<T>(T value, Func<T, bool> predicate, Error error)
     {
-        Data = default;
-        State = ResultState.Err;
-        Error = error;
+        return predicate(value) ?
+            Success(value) :
+            Failure<T>(error);
     }
 
-    private readonly T Data;
-    private readonly E Error;
+    public static Result<T> Ensure<T>(
+        T value,
+        params (Func<T, bool> predicate, Error error)[] functions)
+    {
+        var results = new List<Result<T>>();
+        foreach ((Func<T, bool> predicate, Error error) in functions)
+        {
+            results.Add(Ensure(value, predicate, error));
+        }
 
-    public ResultState State;
+        return Combine(results.ToArray());
+    }
 
-    /// <summary>
-    /// Used to create a successful result and then combined with unwrap will allow for the data to be collected
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    public Result<T, E> Ok(T data) => new(data);
+    public static Result<T> Combine<T>(params Result<T>[] results)
+    {
+        if (results.Any(r => r.IsFailure))
+        {
+            return Failure<T>(
+                results
+                    .SelectMany(r => r.Errors)
+                    .Where(e => e != Error.None)
+                    .Distinct()
+                    .ToArray());
+        }
 
-    /// <summary>
-    /// Used to create the error which occurred and then combined with the collect err the caller can collect the error.
-    /// </summary>
-    /// <param name="error"></param>
-    /// <returns></returns>
-    public Result<T, E> Err(E error) => new(error);
+        return Success(results[0].Value);
+    }
 
-    /// <summary>
-    /// Warning: check the result state before unwrapping. Unwrap to collect the data
-    /// </summary>
-    /// <returns></returns>
-    public T Unwrap() => Data;
+    public static Result<(T1, T2)> Combine<T1, T2>(Result<T1> result1, Result<T2> result2)
+    {
+        if (result1.IsFailure)
+        {
+            return Failure<(T1, T2)>(result1.Errors);
+        }
 
-    /// <summary>
-    /// Warning: check the result state before unwrapping. Unwrap to collect the data
-    /// </summary>
-    /// <returns></returns>
-    public void Unwrap(out T data) => data = Data;
+        if (result2.IsFailure)
+        {
+            return Failure<(T1, T2)>(result2.Errors);
+        }
 
-    /// <summary>
-    ///  Unwraps and returns the error
-    /// </summary>
-    /// <returns></returns>
-    public E CollectErr() => Error;
-
-    /// <summary>
-    ///  Unwraps and returns the error
-    /// </summary>
-    /// <returns></returns>
-    public void CollectErr(out E err) => err = Error;
+        return Success((result1.Value, result2.Value));
+    }
 }
-
-public enum ResultState
-{
-    Ok,
-    Err,
-}
-
