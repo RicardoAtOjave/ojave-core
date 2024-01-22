@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Ojave.Core.Data;
 
 namespace Ojave.Core.Extensions.Iterable;
