@@ -2,7 +2,7 @@
 
 namespace Ojave.Core.Data;
 
-public interface IDbCommand<TInput, TResult> where TResult : Result<TResult>
+public interface IDbCommand<TInput, TResult>
 {
     Task<Result<TResult>> ExecuteAsync(TInput input, CancellationToken cancellationToken);
 }
