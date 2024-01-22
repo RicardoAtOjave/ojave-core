@@ -6,10 +6,8 @@ namespace Ojave.Core.DependencyInjection;
 
 public static class RegisterDataAccess
 {
-    public static void AddParameterlessQueryObjects(this IServiceCollection services)
+    public static void AddParameterlessQueryObjects(this IServiceCollection services, Assembly assembly)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
         var typesForRegistration = assembly.GetTypes()
             .Where(c => c.IsClass && !c.IsAbstract && c.GetInterfaces()
                 .Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbQuery<>)))
@@ -24,10 +22,8 @@ public static class RegisterDataAccess
         }
     }
 
-    public static void AddTQueryObjects(this IServiceCollection services)
+    public static void AddTQueryObjects(this IServiceCollection services, Assembly assembly)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
         var typesForRegistration = assembly.GetTypes()
             .Where(c => c.IsClass && !c.IsAbstract && c.GetInterfaces()
                 .Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbQuery<,>)))
@@ -42,10 +38,8 @@ public static class RegisterDataAccess
         }
     }
 
-    public static void AddCommandObjects(this IServiceCollection services)
+    public static void AddCommandObjects(this IServiceCollection services, Assembly assembly)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
         var typesForRegistration = assembly.GetTypes()
             .Where(c => c.IsClass && !c.IsAbstract && c.GetInterfaces()
                 .Any(c => c.IsGenericType && c.GetGenericTypeDefinition() == typeof(IDbCommand<,>)))

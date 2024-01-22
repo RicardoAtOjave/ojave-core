@@ -5,12 +5,12 @@ using System.Reflection;
 namespace Ojave.Core.DependencyInjection;
 public static class AddRegistration
 {
-    public static IServiceCollection AddOjaveCore(this IServiceCollection services)
+    public static IServiceCollection AddOjaveCore(this IServiceCollection services, Assembly assembly)
     {
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddParameterlessQueryObjects();
-        services.AddTQueryObjects();
-        services.AddCommandObjects();
+        services.AddAutoMapper(assembly);
+        services.AddParameterlessQueryObjects(assembly);
+        services.AddTQueryObjects(assembly);
+        services.AddCommandObjects(assembly);
         return services;
     }
 }
