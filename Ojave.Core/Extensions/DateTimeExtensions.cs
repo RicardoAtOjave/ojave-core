@@ -29,7 +29,7 @@ public static class DateTimeExtensions
         }
     }
 
-    private static DateTime ExtractDateOfBirth(this string idNumber)
+    public static DateTime ExtractDateOfBirth(this string idNumber)
     {
         if (string.IsNullOrWhiteSpace(idNumber)) return DateTime.Parse("1990-01-01");
 
