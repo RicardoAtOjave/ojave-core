@@ -1,4 +1,5 @@
 ﻿using Ojave.Core.System;
+using System.Globalization;
 
 namespace Ojave.Core.Extensions;
 
@@ -25,6 +26,24 @@ public static class DateTimeExtensions
                 return (yearStart, yearEnd);
             default:
                 return (date, date);
+        }
+    }
+
+    private static DateTime ExtractDateOfBirth(this string idNumber)
+    {
+        if (string.IsNullOrWhiteSpace(idNumber)) return DateTime.Parse("1990-01-01");
+
+        try
+        {
+            DateTime.TryParseExact(idNumber[..6], "yyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dateOfBirth);
+
+            if (dateOfBirth == DateTime.MinValue) return DateTime.Parse("1990-01-01");
+
+            return dateOfBirth;
+        }
+        catch (Exception)
+        {
+            return DateTime.Parse("1990-01-01");
         }
     }
 }
